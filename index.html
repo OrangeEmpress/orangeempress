@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orange Empress</title>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Serif+Display:ital@0;1&family=Josefin+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #90192B;
+    --bg-dark: #6B1020;
+    --bg-darker: #431018;
+    --gold: #F9C76C;
+    --gold-dark: #E8A83A;
+    --text-dark: #431018;
+    --cream: #FFF5E0;
+    --serif: 'DM Serif Display', 'Playfair Display', Georgia, serif;
+    --sans: 'Josefin Sans', sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--cream); font-family: var(--sans); font-size: 14px; line-height: 1.7; overflow-x: hidden; font-weight: 600; text-align: center; }
+
+  /* NAV */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 3rem; background: var(--bg-darker); border-bottom: 3px solid var(--gold); }
+  .nav-logo img { height: 48px; width: auto; display: block; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { color: var(--gold); text-decoration: none; font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 700; transition: opacity 0.2s; opacity: 0.85; }
+  .nav-links a:hover { opacity: 1; }
+
+  /* HERO */
+  #hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding-top: 5rem; padding-bottom: 0; position: relative; overflow: hidden; }
+  .hero-logo { width: min(480px, 80vw); margin-bottom: 1.5rem; position: relative; z-index: 2; filter: drop-shadow(0 8px 32px rgba(67,16,24,0.5)); }
+  .hero-tag { font-size: 12px; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; font-weight: 700; position: relative; z-index: 2; }
+  .hero-tag::before, .hero-tag::after { content: '✦'; margin: 0 0.75rem; opacity: 0.6; }
+  .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; position: relative; z-index: 2; }
+  .hero-band-photo { width: min(700px, 95vw); display: block; margin: 2rem auto 0; position: relative; z-index: 2; }
+
+  /* BUTTONS */
+  .btn { display: inline-block; padding: 0.9rem 2.5rem; font-family: var(--sans); font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none; cursor: pointer; transition: all 0.15s; font-weight: 700; border: none; text-align: center; }
+  .btn-primary { background: var(--gold); color: var(--text-dark); box-shadow: 4px 4px 0px var(--bg-darker); }
+  .btn-primary:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0px var(--bg-darker); }
+  .btn-ghost { background: transparent; color: var(--gold); border: 2px solid var(--gold); box-shadow: 4px 4px 0px var(--bg-darker); }
+  .btn-ghost:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0px var(--bg-darker); }
+
+  /* SECTION LABEL */
+  .section-label { font-size: 11px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); margin-bottom: 3rem; font-weight: 700; display: flex; align-items: center; gap: 1rem; justify-content: center; }
+  .section-label::before, .section-label::after { content: ''; flex: 1; height: 2px; background: var(--gold); opacity: 0.3; max-width: 60px; }
+
+  /* BIO */
+  #bio { border-top: 3px solid var(--bg-darker); background: rgba(67,16,24,0.3); max-width: 100%; padding: 6rem 0; }
+  .bio-inner { max-width: 1100px; margin: 0 auto; padding: 0 3rem; }
+
+  .band-bio { font-size: 15px; color: rgba(255,245,224,0.85); line-height: 2; margin-bottom: 3rem; max-width: 800px; margin-left: auto; margin-right: auto; font-weight: 400; }
+  .band-bio strong { color: var(--gold); font-weight: 700; }
+
+  .group-photo { width: 100%; max-width: 800px; margin: 0 auto 3rem; display: block; border: 2px solid rgba(249,199,108,0.2); box-shadow: 6px 6px 0 var(--bg-darker); }
+
+  .members-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; margin-top: 2rem; }
+  .member-card { display: flex; flex-direction: column; gap: 0.75rem; }
+  .member-photo { aspect-ratio: 3/4; background: var(--bg-darker); border: 2px solid rgba(249,199,108,0.2); overflow: hidden; width: 100%; }
+  .member-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .member-info { padding-top: 0.25rem; text-align: left; }
+  .member-num { font-size: 10px; color: var(--gold); letter-spacing: 0.15em; font-weight: 700; }
+  .member-name { font-family: var(--serif); font-size: 1.3rem; color: var(--cream); font-style: italic; line-height: 1.2; margin: 0.2rem 0; }
+  .member-role { font-size: 10px; color: var(--gold); letter-spacing: 0.15em; text-transform: uppercase; font-weight: 700; margin-bottom: 0.4rem; }
+  .member-bio { font-size: 12px; color: rgba(255,245,224,0.7); line-height: 1.7; font-weight: 400; }
+
+  /* SHOWS */
+  #shows { border-top: 3px solid var(--bg-darker); padding: 6rem 3rem; max-width: 1100px; margin: 0 auto; }
+
+  .shows-upcoming { margin-bottom: 4rem; }
+
+  .show-card { display: grid; grid-template-columns: 280px 1fr; gap: 2.5rem; align-items: center; border: 2px solid var(--gold); padding: 2rem; box-shadow: 6px 6px 0px var(--bg-darker); text-align: left; margin-bottom: 1.5rem; }
+  .show-poster { aspect-ratio: 3/4; background: var(--bg-darker); border: 2px solid rgba(249,199,108,0.3); overflow: hidden; }
+  .show-poster img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .show-poster-placeholder { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: rgba(249,199,108,0.4); font-size: 11px; letter-spacing: 0.1em; text-align: center; padding: 1rem; font-weight: 700; gap: 0.5rem; }
+  .show-details { display: flex; flex-direction: column; gap: 1.25rem; }
+  .show-date { font-family: var(--serif); font-style: italic; font-size: 2.5rem; color: var(--gold); line-height: 1; }
+  .show-date span { display: block; font-family: var(--sans); font-style: normal; font-size: 12px; letter-spacing: 0.2em; color: var(--cream); margin-top: 0.25rem; font-weight: 700; }
+  .show-venue { font-family: var(--serif); font-size: 1.8rem; color: var(--cream); font-style: italic; }
+  .show-city { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,245,224,0.6); margin-top: 0.3rem; font-weight: 700; }
+  .show-time { font-size: 13px; color: var(--gold); margin-top: 0.5rem; font-weight: 700; letter-spacing: 0.05em; }
+
+  .shows-upcoming { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 3rem; }
+  .show-tba { border: 2px solid rgba(249,199,108,0.3); padding: 1.5rem 2rem; text-align: left; display: flex; justify-content: space-between; align-items: center; }
+  .show-tba-date { font-family: var(--serif); font-style: italic; font-size: 1.5rem; color: rgba(249,199,108,0.4); }
+  .show-tba-label { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(249,199,108,0.4); font-weight: 700; }
+
+  /* PAST SHOWS CONVEYOR */
+  .past-shows-label { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(249,199,108,0.5); margin-bottom: 1.5rem; font-weight: 700; display: flex; align-items: center; gap: 1rem; justify-content: center; }
+  .past-shows-label::before, .past-shows-label::after { content: ''; flex: 1; height: 1px; background: rgba(249,199,108,0.2); max-width: 60px; }
+
+  .past-shows-track-wrapper { overflow: hidden; width: 100%; position: relative; }
+  .past-shows-track-wrapper::before, .past-shows-track-wrapper::after { content: ''; position: absolute; top: 0; bottom: 0; width: 80px; z-index: 2; pointer-events: none; }
+  .past-shows-track-wrapper::before { left: 0; background: linear-gradient(to right, var(--bg), transparent); }
+  .past-shows-track-wrapper::after { right: 0; background: linear-gradient(to left, var(--bg), transparent); }
+
+  .past-shows-track { display: flex; gap: 1rem; animation: scroll-shows 30s linear infinite; width: max-content; padding: 0 1rem; }
+  .past-shows-track:hover { animation-play-state: paused; }
+  @keyframes scroll-shows { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  .past-show-card { width: 220px; aspect-ratio: 2/3; flex-shrink: 0; background: var(--bg-darker); border: 2px solid rgba(249,199,108,0.2); overflow: hidden; box-shadow: 4px 4px 0 rgba(0,0,0,0.3); transition: border-color 0.2s; }
+  .past-show-card:hover { border-color: var(--gold); }
+  .past-show-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .past-show-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: rgba(249,199,108,0.3); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-align: center; padding: 1rem; }
+
+  /* GALLERY */
+  #gallery { border-top: 3px solid var(--bg-darker); background: rgba(67,16,24,0.3); padding: 6rem 0; max-width: 100%; overflow: hidden; }
+  .gallery-inner { max-width: 1100px; margin: 0 auto; padding: 0 3rem; margin-bottom: 2.5rem; }
+  .gallery-track-wrapper { overflow: hidden; width: 100%; position: relative; }
+  .gallery-track-wrapper::before, .gallery-track-wrapper::after { content: ''; position: absolute; top: 0; bottom: 0; width: 80px; z-index: 2; pointer-events: none; }
+  .gallery-track-wrapper::before { left: 0; background: linear-gradient(to right, var(--bg-dark), transparent); }
+  .gallery-track-wrapper::after { right: 0; background: linear-gradient(to left, var(--bg-dark), transparent); }
+  .gallery-track { display: flex; gap: 1rem; animation: scroll-gallery 40s linear infinite; width: max-content; padding: 0 1rem; }
+  .gallery-track:hover { animation-play-state: paused; }
+  @keyframes scroll-gallery { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+  .gallery-item { width: 280px; height: 380px; flex-shrink: 0; background: var(--bg-darker); border: 2px solid rgba(249,199,108,0.2); overflow: hidden; transition: border-color 0.2s; }
+  .gallery-item:hover { border-color: var(--gold); }
+  .gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .gallery-placeholder { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: rgba(249,199,108,0.3); font-size: 11px; letter-spacing: 0.1em; text-align: center; padding: 1rem; font-weight: 700; gap: 0.5rem; }
+
+  /* MUSIC */
+  #music { border-top: 3px solid var(--bg-darker); padding: 6rem 3rem; max-width: 1100px; margin: 0 auto; }
+  .music-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 3rem; }
+  .release-card { background: var(--bg-darker); border: 2px solid rgba(249,199,108,0.12); overflow: hidden; transition: all 0.2s; box-shadow: 4px 4px 0px rgba(0,0,0,0.3); }
+  .release-card:hover { border-color: rgba(249,199,108,0.4); transform: translate(-2px,-2px); box-shadow: 6px 6px 0px rgba(0,0,0,0.3); }
+  .release-art { aspect-ratio: 1; background: var(--bg-dark); display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-style: italic; font-size: 1.2rem; color: rgba(249,199,108,0.25); border-bottom: 2px solid rgba(249,199,108,0.1); overflow: hidden; }
+  .release-art img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .release-info { padding: 1rem; text-align: left; }
+  .release-title { font-family: var(--serif); font-size: 1rem; color: var(--gold); margin-bottom: 4px; font-style: italic; }
+  .release-meta { font-size: 10px; color: rgba(255,245,224,0.5); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; }
+  .streaming-links { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; justify-content: center; }
+
+  /* MERCH */
+  #merch { border-top: 3px solid var(--bg-darker); background: rgba(67,16,24,0.3); max-width: 100%; padding: 6rem 0; }
+  .merch-inner { max-width: 1100px; margin: 0 auto; padding: 0 3rem; }
+  .merch-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .merch-card { border: 2px solid rgba(249,199,108,0.12); overflow: hidden; transition: all 0.2s; box-shadow: 4px 4px 0px rgba(0,0,0,0.3); }
+  .merch-card:hover { border-color: rgba(249,199,108,0.4); transform: translate(-2px,-2px); box-shadow: 6px 6px 0px rgba(0,0,0,0.3); }
+  .merch-img { aspect-ratio: 3/4; background: var(--bg-darker); display: flex; align-items: center; justify-content: center; color: rgba(249,199,108,0.2); font-family: var(--serif); font-style: italic; font-size: 1.2rem; }
+  .merch-info { padding: 0.75rem 1rem; background: var(--bg-darker); text-align: center; }
+  .merch-name { font-size: 13px; color: var(--cream); margin-bottom: 4px; font-weight: 700; }
+  .merch-price { font-size: 12px; color: var(--gold); font-weight: 700; }
+
+  /* CONTACT */
+  #contact { border-top: 3px solid var(--bg-darker); padding: 6rem 3rem; max-width: 1100px; margin: 0 auto; }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; }
+  .contact-left h2 { font-family: var(--serif); font-size: 2.8rem; margin-bottom: 1rem; line-height: 1.05; color: var(--gold); text-align: left; }
+  .contact-left h2 em { font-style: italic; color: var(--cream); }
+  .contact-left p { color: rgba(255,245,224,0.7); font-size: 13px; line-height: 1.9; margin-bottom: 2rem; font-weight: 600; text-align: left; }
+  .contact-detail { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 2rem; }
+  .contact-item { display: flex; gap: 1rem; align-items: baseline; }
+  .contact-item-label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); min-width: 70px; font-weight: 700; }
+  .contact-item-val { font-size: 13px; color: var(--cream); text-align: left; }
+  .contact-form { display: flex; flex-direction: column; gap: 1rem; text-align: left; }
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+  label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); font-weight: 700; }
+  input, textarea, select { background: var(--bg-darker); border: 2px solid rgba(249,199,108,0.3); color: var(--cream); padding: 0.75rem 1rem; font-family: var(--sans); font-size: 13px; outline: none; transition: border-color 0.2s; font-weight: 600; }
+  input:focus, textarea:focus, select:focus { border-color: var(--gold); }
+  textarea { resize: vertical; min-height: 120px; }
+  select { cursor: pointer; }
+  select option { background: var(--bg-darker); }
+  .form-success { display: none; background: var(--bg-darker); border: 2px solid var(--gold); padding: 1.5rem; text-align: center; color: var(--gold); font-family: var(--serif); font-style: italic; font-size: 1.2rem; }
+
+  /* FOOTER */
+  footer { background: var(--bg-darker); border-top: 3px solid var(--gold); padding: 2.5rem 3rem; display: flex; justify-content: space-between; align-items: center; }
+  .footer-logo img { height: 44px; width: auto; display: block; }
+  .footer-copy { font-size: 11px; color: rgba(249,199,108,0.5); letter-spacing: 0.1em; font-weight: 700; }
+  .social-links { display: flex; gap: 1.5rem; align-items: center; }
+  .social-links a { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(249,199,108,0.7); text-decoration: none; transition: color 0.2s; font-weight: 700; }
+  .social-links a:hover { color: var(--gold); }
+
+
+  /* VERTICAL GALLERY */
+  .vert-gallery-wrapper { overflow: hidden; width: 100%; position: relative; margin-bottom: 4rem; }
+  .vert-gallery-wrapper::before, .vert-gallery-wrapper::after { content: ''; position: absolute; left: 0; right: 0; height: 80px; z-index: 2; pointer-events: none; }
+  .vert-gallery-wrapper::before { top: 0; background: linear-gradient(to bottom, #6B1020, transparent); }
+  .vert-gallery-wrapper::after { bottom: 0; background: linear-gradient(to top, #6B1020, transparent); }
+  .vert-gallery-stage { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding: 0 8px; height: 520px; overflow: hidden; }
+  .vert-col { overflow: hidden; }
+  .vert-col-inner { display: flex; flex-direction: column; gap: 8px; }
+  .vert-photo { flex-shrink: 0; height: 200px; background: var(--bg-darker); border: 2px solid rgba(249,199,108,0.15); overflow: hidden; }
+  .vert-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .vert-up-slow { animation: vertUp 25s linear infinite; }
+  .vert-down-slow { animation: vertDown 30s linear infinite; }
+  .vert-up-med { animation: vertUp 20s linear infinite; }
+  .vert-down-med { animation: vertDown 22s linear infinite; }
+  @keyframes vertUp { 0% { transform: translateY(0); } 100% { transform: translateY(-50%); } }
+  @keyframes vertDown { 0% { transform: translateY(-50%); } 100% { transform: translateY(0); } }
+
+  /* SLOT MACHINE */
+  .slot-wrap { padding: 3rem; max-width: 700px; margin: 0 auto; }
+  .slot-machine { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 0 auto; max-width: 540px; }
+  .slot-window { height: 220px; border: 3px solid var(--gold); overflow: hidden; position: relative; background: var(--bg-darker); box-shadow: inset 0 0 30px rgba(0,0,0,0.6), 5px 5px 0 var(--bg-darker); border-radius: 4px; }
+  .slot-window::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to bottom, rgba(67,16,24,0.7) 0%, transparent 25%, transparent 75%, rgba(67,16,24,0.7) 100%); pointer-events: none; z-index: 2; }
+  .slot-window::before { content: ''; position: absolute; top: 50%; left: 0; right: 0; height: 220px; transform: translateY(-50%); border-top: 2px solid rgba(249,199,108,0.3); border-bottom: 2px solid rgba(249,199,108,0.3); pointer-events: none; z-index: 3; }
+  .slot-reel { display: flex; flex-direction: column; transition: transform 0s; }
+  .slot-cell { height: 220px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 5rem; flex-shrink: 0; overflow: hidden; position: relative; }
+  .slot-cell-logo { width: 80%; height: 80%; object-fit: contain; display: block; filter: drop-shadow(0 0 12px rgba(249,199,108,0.5)); }
+  .slot-cell-suit { font-size: 6rem; line-height: 1; }
+  .slot-cell-label { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); font-weight: 700; text-align: center; margin-top: 4px; font-family: var(--sans); }
+
+  @media (max-width: 900px) { .members-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 700px) {
+    nav { padding: 0.75rem 1.5rem; }
+    .nav-links { gap: 1.2rem; }
+    section, #shows, #music, #contact { padding: 4rem 1.5rem; }
+    .bio-inner, .merch-inner { padding: 0 1.5rem; }
+    .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .music-grid, .merch-grid { grid-template-columns: repeat(2, 1fr); }
+    .members-grid { grid-template-columns: repeat(2, 1fr); }
+    footer { flex-direction: column; gap: 1.5rem; text-align: center; }
+    .gallery-item { width: 220px; height: 300px; }
+    .show-card { grid-template-columns: 1fr; }
+    .show-poster { max-width: 220px; margin: 0 auto; }
+  }
+
+  h1, h2, h3, h4, h5, h6 { text-align: center; }
+  .bio-text h2 { text-align: center; }
+  .contact-left h2 { text-align: center; }
+  .release-title { text-align: center; }
+  .member-name { text-align: center; }
+  .member-role { text-align: center; }
+  .member-num { text-align: center; }
+  .show-venue { text-align: center; }
+  .show-city { text-align: center; }
+  .show-time { text-align: center; }
+  .show-details { align-items: center; }
+  .show-date { text-align: center; }
+  .member-info { text-align: center; }
+  .band-bio { text-align: center; }
+  .contact-left p { text-align: center; }
+  .contact-item { justify-content: center; }
+  .contact-item-val { text-align: center; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo"><img src="nav-logo.png" alt="Orange Empress" /></div>
+  <ul class="nav-links">
+    <li><a href="#bio">About</a></li>
+    <li><a href="#shows">Shows</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#music">Music</a></li>
+    <li><a href="#merch">Merch</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<div id="hero">
+  <p class="hero-tag">Sydney, Australia &nbsp; Est. 2025</p>
+  <img class="hero-logo" src="logo.png" alt="Orange Empress" />
+  <div class="hero-cta">
+    <a href="#shows" class="btn btn-primary">Upcoming Shows</a>
+    <a href="#music" class="btn btn-ghost">Listen Now</a>
+  </div>
+  <img class="hero-band-photo" src="band.png" alt="Orange Empress Band" />
+</div>
+
+<!-- BIO -->
+<div id="bio">
+  <div class="bio-inner" style="padding-top:6rem; padding-bottom:6rem;">
+    <div class="section-label">About</div>
+
+    <p class="band-bio">Orange Empress is a melting pot of rock and pop through the ages, mixing your dad's favourite music with the tunes of today. Think Oasis meets Zeppelin meets Holy Holy meets South Summit meets Sticky Fingers meets Midnight Oil, seasoned with anything else you might find on your uncle's iPod Nano. Comprised of frontman Juzzy, guitarist Marcus, bass player Dylan and drummer Daniel, Orange Empress has a pedigree of performance within the Sydney music scene, including acts such as Krystal Rivvers, Violet Harbour and Large Mirage. The band originally emerged as The Spooked Kooks out of COVID lockdowns, burning bright before going into hibernation. Now, with a slightly tweaked lineup and a wealth of songs recorded and ready for release, the band has risen from the ashes again as Orange Empress. This is a band synonymous with whatever the word is for a bustling show followed by an afterparty, and it plans to launch into the second half of 2026 with big gigs and big releases. <br><br><strong>Become royalty, come see Orange Empress.</strong></p>
+
+    <img class="group-photo" src="band-2.png" alt="Orange Empress" onerror="this.style.display='none'">
+
+    <div class="section-label" style="margin-top:3rem;">The Band</div>
+    <div class="members-grid">
+      <div class="member-card">
+        <div class="member-photo"><img src="justin.jpeg" alt="Justin" onerror="this.parentElement.innerHTML='justin.jpeg'"></div>
+        <div class="member-info">
+          <div class="member-num">01</div>
+          <div class="member-name">Justin</div>
+          <div class="member-role">Guitar / Vocals</div>
+        </div>
+      </div>
+      <div class="member-card">
+        <div class="member-photo"><img src="marcus.jpeg" alt="Marcus" onerror="this.parentElement.innerHTML='marcus.jpeg'"></div>
+        <div class="member-info">
+          <div class="member-num">02</div>
+          <div class="member-name">Marcus</div>
+          <div class="member-role">Guitar</div>
+        </div>
+      </div>
+      <div class="member-card">
+        <div class="member-photo"><img src="dylan.jpeg" alt="Dylan" onerror="this.parentElement.innerHTML='dylan.jpeg'"></div>
+        <div class="member-info">
+          <div class="member-num">03</div>
+          <div class="member-name">Dylan</div>
+          <div class="member-role">Bass</div>
+        </div>
+      </div>
+      <div class="member-card">
+        <div class="member-photo"><img src="daniel.jpeg" alt="Daniel" onerror="this.parentElement.innerHTML='daniel.jpeg'"></div>
+        <div class="member-info">
+          <div class="member-num">04</div>
+          <div class="member-name">Daniel</div>
+          <div class="member-role">Drums</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 4rem;">
+      <img src="about-photo.jpg" alt="Orange Empress" style="width:100%; max-width:900px; display:block; margin:0 auto; border:2px solid rgba(249,199,108,0.2); box-shadow: 6px 6px 0 var(--bg-darker);" onerror="this.style.display='none'">
+    </div>
+
+  </div>
+</div>
+
+<!-- SHOWS -->
+<div id="shows" style="border-top:3px solid var(--bg-darker); padding:6rem 3rem;">
+  <div style="max-width:1100px; margin:0 auto;">
+    <div class="section-label">Live</div>
+    <div class="shows-upcoming">
+      <div class="show-tba">
+        <div>
+          <div class="show-tba-date">TBA</div>
+          <div class="show-tba-label">Venue &amp; Date To Be Announced</div>
+        </div>
+        <span class="show-tba-label">Follow us for updates</span>
+      </div>
+      <div class="show-tba">
+        <div>
+          <div class="show-tba-date">TBA</div>
+          <div class="show-tba-label">Venue &amp; Date To Be Announced</div>
+        </div>
+        <span class="show-tba-label">Follow us for updates</span>
+      </div>
+      <div class="show-tba">
+        <div>
+          <div class="show-tba-date">TBA</div>
+          <div class="show-tba-label">Venue &amp; Date To Be Announced</div>
+        </div>
+        <span class="show-tba-label">Follow us for updates</span>
+      </div>
+    </div>
+
+    <div class="past-shows-label">Past Shows</div>
+    <div class="past-shows-track-wrapper">
+      <div class="past-shows-track">
+        <div class="past-show-card"><img src="past-show-1.jpg" alt="Past Show" onerror="this.parentElement.innerHTML='<div class=past-show-placeholder>past-show-1.jpg</div>'"></div>
+        <div class="past-show-card"><img src="past-show-2.jpg" alt="Past Show" onerror="this.parentElement.innerHTML='<div class=past-show-placeholder>past-show-2.jpg</div>'"></div>
+        <div class="past-show-card"><img src="past-show-1.jpg" alt="Past Show" onerror="this.parentElement.innerHTML='<div class=past-show-placeholder>past-show-1.jpg</div>'"></div>
+        <div class="past-show-card"><img src="past-show-2.jpg" alt="Past Show" onerror="this.parentElement.innerHTML='<div class=past-show-placeholder>past-show-2.jpg</div>'"></div>
+        <div class="past-show-card"><img src="past-show-1.jpg" alt="Past Show" onerror="this.parentElement.innerHTML='<div class=past-show-placeholder>past-show-1.jpg</div>'"></div>
+        <div class="past-show-card"><img src="past-show-2.jpg" alt="Past Show" onerror="this.parentElement.innerHTML='<div class=past-show-placeholder>past-show-2.jpg</div>'"></div>
+        <!-- duplicate set for seamless loop -->
+        <div class="past-show-card"><img src="past-show-1.jpg" alt="Past Show" onerror="this.parentElement.innerHTML='<div class=past-show-placeholder>past-show-1.jpg</div>'"></div>
+        <div class="past-show-card"><img src="past-show-2.jpg" alt="Past Show" onerror="this.parentElement.innerHTML='<div class=past-show-placeholder>past-show-2.jpg</div>'"></div>
+        <div class="past-show-card"><img src="past-show-1.jpg" alt="Past Show" onerror="this.parentElement.innerHTML='<div class=past-show-placeholder>past-show-1.jpg</div>'"></div>
+        <div class="past-show-card"><img src="past-show-2.jpg" alt="Past Show" onerror="this.parentElement.innerHTML='<div class=past-show-placeholder>past-show-2.jpg</div>'"></div>
+        <div class="past-show-card"><img src="past-show-1.jpg" alt="Past Show" onerror="this.parentElement.innerHTML='<div class=past-show-placeholder>past-show-1.jpg</div>'"></div>
+        <div class="past-show-card"><img src="past-show-2.jpg" alt="Past Show" onerror="this.parentElement.innerHTML='<div class=past-show-placeholder>past-show-2.jpg</div>'"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GALLERY -->
+<div id="gallery">
+  <div class="gallery-inner"><div class="section-label">Gallery</div></div>
+
+  <div class="vert-gallery-wrapper">
+    <div class="vert-gallery-stage">
+      <div class="vert-col"><div class="vert-col-inner vert-up-slow">
+        <div class="vert-photo"><img src="gallery-1.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-4.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-7.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-10.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-11.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-15.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-19.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-23.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-27.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-1.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-4.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-7.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-10.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-11.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-15.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-19.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-23.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-27.jpg" alt=""></div>
+      </div></div>
+      <div class="vert-col"><div class="vert-col-inner vert-down-slow">
+        <div class="vert-photo"><img src="gallery-2.jpeg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-5.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-8.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-12.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-16.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-20.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-24.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-28.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-2.jpeg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-5.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-8.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-12.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-16.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-20.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-24.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-28.jpg" alt=""></div>
+      </div></div>
+      <div class="vert-col"><div class="vert-col-inner vert-up-med">
+        <div class="vert-photo"><img src="gallery-3.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-6.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-9.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-1.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-13.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-17.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-21.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-25.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-29.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-3.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-6.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-9.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-1.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-13.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-17.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-21.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-25.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-29.jpg" alt=""></div>
+      </div></div>
+      <div class="vert-col"><div class="vert-col-inner vert-down-med">
+        <div class="vert-photo"><img src="gallery-5.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-2.jpeg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-8.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-4.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-14.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-18.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-22.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-26.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-30.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-5.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-2.jpeg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-8.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-4.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-14.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-18.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-22.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-26.jpg" alt=""></div>
+        <div class="vert-photo"><img src="gallery-30.jpg" alt=""></div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="slot-wrap">
+    <div class="section-label" style="margin-bottom:1.5rem;">Feeling Lucky?</div>
+    <p style="font-size:12px; color:rgba(255,245,224,0.6); letter-spacing:0.1em; margin-bottom:2rem; font-weight:600; text-align:center;">Three Empresses claims the throne.</p>
+    <div class="slot-machine">
+      <div class="slot-window"><div class="slot-reel" id="reel0"></div></div>
+      <div class="slot-window"><div class="slot-reel" id="reel1"></div></div>
+      <div class="slot-window"><div class="slot-reel" id="reel2"></div></div>
+    </div>
+    <button class="btn btn-primary" id="slot-btn" onclick="spinSlot()" style="margin-top:2rem;">🎰 Spin</button>
+    <div id="slot-msg" style="margin-top:1.5rem; font-family:'DM Serif Display',serif; font-style:italic; font-size:1.4rem; color:var(--gold); min-height:2rem; text-align:center;"></div>
+    <canvas id="fireworks-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999;display:none;"></canvas>
+  </div>
+</div>
+
+<!-- MUSIC -->
+<div id="music" style="border-top:3px solid var(--bg-darker); padding:6rem 3rem;">
+  <div style="max-width:1100px; margin:0 auto;">
+    <div class="section-label">Discography</div>
+    <div class="music-grid">
+      <div class="release-card">
+        <div class="release-art">
+          <img src="single-cielo-drive.jpg" alt="Cielo Drive" onerror="this.parentElement.innerHTML='Coming Soon'">
+        </div>
+        <div class="release-info">
+          <div class="release-title" style="text-align:center;">Cielo Drive</div>
+          <div class="release-meta" style="text-align:center;">Single &nbsp;·&nbsp; 2025</div>
+          <div style="text-align:center; margin-top:0.75rem;"><a href="https://open.spotify.com/track/3E2826V0r2iFbuePR16geP" target="_blank" class="btn btn-primary" style="padding:0.5rem 1.5rem; font-size:10px; display:inline-block;">Listen Now!</a></div>
+        </div>
+      </div>
+      <div class="release-card">
+        <div class="release-art">Coming Soon</div>
+        <div class="release-info">
+          <div class="release-title">New Music</div>
+          <div class="release-meta">Coming Soon</div>
+        </div>
+      </div>
+      <div class="release-card">
+        <div class="release-art">Coming Soon</div>
+        <div class="release-info">
+          <div class="release-title">New Music</div>
+          <div class="release-meta">Coming Soon</div>
+        </div>
+      </div>
+    </div>
+    <div class="section-label" style="margin-top:3rem;">Stream On</div>
+    <div class="streaming-links">
+      <a href="https://open.spotify.com/track/3E2826V0r2iFbuePR16geP" target="_blank" class="btn btn-ghost">Spotify</a>
+      <a href="#" class="btn btn-ghost">Apple Music</a>
+      <a href="https://orangeempress.bandcamp.com/" target="_blank" class="btn btn-ghost">Bandcamp</a>
+      <a href="#" class="btn btn-ghost">YouTube</a>
+    </div>
+  </div>
+</div>
+
+<!-- MERCH -->
+<div id="merch">
+  <div class="merch-inner" style="padding-top:6rem; padding-bottom:6rem;">
+    <div class="section-label">Merch</div>
+    <div class="merch-grid">
+      <div class="merch-card"><div class="merch-img">Coming Soon</div><div class="merch-info"><div class="merch-name">Merch Coming Soon</div><div class="merch-price">&nbsp;</div></div></div>
+      <div class="merch-card"><div class="merch-img">Coming Soon</div><div class="merch-info"><div class="merch-name">Merch Coming Soon</div><div class="merch-price">&nbsp;</div></div></div>
+      <div class="merch-card"><div class="merch-img">Coming Soon</div><div class="merch-info"><div class="merch-name">Merch Coming Soon</div><div class="merch-price">&nbsp;</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div id="contact" style="border-top:3px solid var(--bg-darker); padding:6rem 3rem;">
+  <div style="max-width:1100px; margin:0 auto;">
+    <div class="section-label">Contact</div>
+    <div class="contact-grid">
+      <div class="contact-left">
+        <h2>Let's make<em>something happen</em></h2>
+        <p>For booking, press or just saying hi, reach out here.</p>
+        <div class="contact-detail">
+          <div class="contact-item"><span class="contact-item-label">General</span><span class="contact-item-val">orangeempressband@gmail.com</span></div>
+          <div class="contact-item"><span class="contact-item-label">Instagram</span><span class="contact-item-val"><a href="https://instagram.com/orangeempresss" target="_blank" style="color:var(--gold);text-decoration:none;">@orangeempresss</a></span></div>
+          <div class="contact-item"><span class="contact-item-label">Facebook</span><span class="contact-item-val"><a href="https://www.facebook.com/profile.php?id=61589224136723" target="_blank" style="color:var(--gold);text-decoration:none;">Orange Empress</a></span></div>
+        </div>
+      </div>
+      <div>
+        <form id="contact-form" action="https://formspree.io/f/mqenannp" method="POST">
+          <div class="contact-form">
+            <div class="form-group"><label>Name</label><input type="text" name="name" placeholder="Your name" required /></div>
+            <div class="form-group"><label>Email</label><input type="email" name="email" placeholder="your@email.com" required /></div>
+            <div class="form-group"><label>Regarding</label><select name="regarding"><option>Booking / Show</option><option>Press / Media</option><option>Collaboration</option><option>General Enquiry</option></select></div>
+            <div class="form-group"><label>Message</label><textarea name="message" placeholder="Tell us what's on your mind..." required></textarea></div>
+            <button type="submit" class="btn btn-primary" style="align-self:flex-start;">Send Message</button>
+          </div>
+        </form>
+        <div class="form-success" id="form-success">✦ Message sent! We'll be in touch. ✦</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo"><img src="nav-logo.png" alt="Orange Empress" /></div>
+  <div class="social-links">
+    <a href="https://instagram.com/orangeempresss" target="_blank">Instagram</a>
+    <a href="https://www.facebook.com/profile.php?id=61589224136723" target="_blank">Facebook</a>
+    <a href="https://orangeempress.bandcamp.com/" target="_blank">Bandcamp</a>
+  </div>
+  <div class="footer-copy">© 2025 Orange Empress. All rights reserved.</div>
+</footer>
+
+<script>
+  const form = document.getElementById('contact-form');
+  const success = document.getElementById('form-success');
+  if (form) {
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const data = new FormData(form);
+      const res = await fetch(form.action, { method: 'POST', body: data, headers: { 'Accept': 'application/json' } });
+      if (res.ok) { form.style.display = 'none'; success.style.display = 'block'; }
+    });
+  }
+</script>
+
+
+<script>
+const SYMBOLS = [
+  { id: 'hearts',   display: '♥', label: 'Hearts',   color: '#C9181F' },
+  { id: 'diamonds', display: '♦', label: 'Diamonds',  color: '#C9181F' },
+  { id: 'clubs',    display: '♣', label: 'Clubs',     color: '#F9C76C' },
+  { id: 'spades',   display: '♠', label: 'Spades',    color: '#F9C76C' },
+  { id: 'oe',       display: 'OE', label: 'Empress',  color: '#F9C76C', isLogo: true },
+];
+
+const CELL_HEIGHT = 220;
+const LOSE_MSGS = [
+  'The Empress is unimpressed.',
+  'The Empress is unimpressed.',
+  'The Empress is unimpressed.',
+];
+
+function makeCell(symbol) {
+  const cell = document.createElement('div');
+  cell.className = 'slot-cell';
+  if (symbol.isLogo) {
+    const img = document.createElement('img');
+    img.src = 'slot-logo.png';
+    img.className = 'slot-cell-logo';
+    img.onerror = function() {
+      this.parentElement.innerHTML = '<div class="slot-cell-suit" style="color:#F9C76C">👑</div><div class="slot-cell-label" style="color:#F9C76C">Empress</div>';
+    };
+    cell.appendChild(img);
+    const lbl = document.createElement('div');
+    lbl.className = 'slot-cell-label';
+    lbl.style.color = symbol.color;
+    lbl.textContent = symbol.label;
+    cell.appendChild(lbl);
+  } else {
+    const suit = document.createElement('div');
+    suit.className = 'slot-cell-suit';
+    suit.style.color = symbol.color;
+    suit.textContent = symbol.display;
+    const lbl = document.createElement('div');
+    lbl.className = 'slot-cell-label';
+    lbl.style.color = symbol.color;
+    lbl.textContent = symbol.label;
+    cell.appendChild(suit);
+    cell.appendChild(lbl);
+  }
+  return cell;
+}
+
+function buildReel(reelEl, landingSymbol) {
+  reelEl.innerHTML = '';
+  const items = [];
+  for (let i = 0; i < 20; i++) {
+    items.push(SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)]);
+  }
+  items[16] = landingSymbol;
+  items.forEach(sym => reelEl.appendChild(makeCell(sym)));
+}
+
+function initReels() {
+  for (let i = 0; i < 3; i++) {
+    const reel = document.getElementById('reel' + i);
+    buildReel(reel, SYMBOLS[i % SYMBOLS.length]);
+    reel.style.transform = 'translateY(0)';
+  }
+}
+initReels();
+
+let spinning = false;
+// ---- BONUS FEATURE ----
+const GRID_COLS = 5;
+const GRID_ROWS = 3;
+const TOTAL_CELLS = GRID_COLS * GRID_ROWS;
+const SUIT_SYMBOLS = ['♥','♦','♣','♠'];
+const SUIT_COLORS  = ['#C9181F','#C9181F','#F9C76C','#F9C76C'];
+// Higher crown probability in bonus
+const CROWN_PROB = 0.38;
+
+let bonusGrid = []; // true = locked crown, false = empty
+let bonusSpinsLeft = 3;
+let bonusRunning = false;
+
+function buildBonusGrid() {
+  const gridEl = document.getElementById('bonus-grid');
+  gridEl.innerHTML = '';
+  bonusGrid = Array(TOTAL_CELLS).fill(false);
+  for (let i = 0; i < TOTAL_CELLS; i++) {
+    const cell = document.createElement('div');
+    cell.className = 'bonus-cell';
+    cell.id = 'bcell-' + i;
+    cell.innerHTML = '<span style="color:rgba(249,199,108,0.15); font-size:1.5rem;">✦</span>';
+    gridEl.appendChild(cell);
+  }
+}
+
+function randomSuit() {
+  const i = Math.floor(Math.random() * 4);
+  return { sym: SUIT_SYMBOLS[i], color: SUIT_COLORS[i] };
+}
+
+function doBonusSpin() {
+  if (bonusSpinsLeft <= 0 || !bonusRunning) { endBonus(); return; }
+
+  // Spin all unlocked cells
+  const unlocked = [];
+  for (let i = 0; i < TOTAL_CELLS; i++) {
+    if (!bonusGrid[i]) {
+      unlocked.push(i);
+      const cell = document.getElementById('bcell-' + i);
+      cell.classList.add('spinning');
+      cell.innerHTML = '<span style="color:rgba(249,199,108,0.4);">✦</span>';
+    }
+  }
+
+  // After spin delay, reveal results
+  setTimeout(() => {
+    let newCrowns = 0;
+    unlocked.forEach((idx, order) => {
+      setTimeout(() => {
+        const isCrown = Math.random() < CROWN_PROB;
+        const cell = document.getElementById('bcell-' + idx);
+        cell.classList.remove('spinning');
+        if (isCrown) {
+          bonusGrid[idx] = true;
+          newCrowns++;
+          cell.classList.add('locked');
+          cell.innerHTML = '<span class="crown-icon" style="font-size:clamp(1.4rem,3vw,2.2rem);">👑</span>';
+        } else {
+          const s = randomSuit();
+          cell.innerHTML = `<span style="color:${s.color};">${s.sym}</span>`;
+        }
+
+        // After last cell revealed
+        if (order === unlocked.length - 1) {
+          setTimeout(() => {
+            if (newCrowns > 0) {
+              // Reset spins to 3
+              bonusSpinsLeft = 3;
+            } else {
+              bonusSpinsLeft--;
+            }
+            document.getElementById('bonus-spins-display').textContent = bonusSpinsLeft;
+
+            const lockedCount = bonusGrid.filter(Boolean).length;
+            if (lockedCount === TOTAL_CELLS) {
+              // All filled!
+              endBonus(true);
+            } else if (bonusSpinsLeft <= 0) {
+              endBonus(false);
+            } else {
+              setTimeout(doBonusSpin, 600);
+            }
+          }, 400);
+        }
+      }, order * 80);
+    });
+  }, 700);
+}
+
+function endBonus(fullWin) {
+  bonusRunning = false;
+  const msg = document.getElementById('bonus-msg');
+  msg.style.display = 'block';
+  if (fullWin) {
+    msg.innerHTML = '👑 ALL HAIL THE EMPRESS 👑<br><span style="font-size:1rem; letter-spacing:0.2em;">The throne is yours.</span>';
+    launchFireworks();
+    launchFireworks();
+  } else {
+    const lockedCount = bonusGrid.filter(Boolean).length;
+    if (lockedCount >= 10) {
+      msg.innerHTML = '⚔️ <em>So close to the throne...</em><br><span style="font-size:1rem;">'+lockedCount+' of 15 crowns claimed.</span>';
+      launchFireworks();
+    } else {
+      msg.innerHTML = '🗡️ <em>The Empress remains undefeated.</em><br><span style="font-size:1rem;">'+lockedCount+' of 15 crowns claimed.</span>';
+    }
+  }
+  setTimeout(() => {
+    document.getElementById('bonus-overlay').style.display = 'none';
+    msg.style.display = 'none';
+    bonusGrid = [];
+  }, 5000);
+}
+
+function triggerBonus() {
+  const overlay = document.getElementById('bonus-overlay');
+  overlay.style.display = 'flex';
+  bonusSpinsLeft = 3;
+  bonusRunning = true;
+  document.getElementById('bonus-spins-display').textContent = '3';
+  document.getElementById('bonus-msg').style.display = 'none';
+  buildBonusGrid();
+
+  setTimeout(doBonusSpin, 800);
+}
+
+function spinSlot() {
+  if (spinning) return;
+  spinning = true;
+  const btn = document.getElementById('slot-btn');
+  const msg = document.getElementById('slot-msg');
+  btn.disabled = true;
+  btn.textContent = '🎰 Spinning...';
+  msg.textContent = '';
+
+  const delays = [1800, 2500, 3200];
+  const landed = [];
+  const jackpot = Math.random() < (1/12);
+  const oeSym = SYMBOLS.find(s => s.isLogo);
+
+  for (let i = 0; i < 3; i++) {
+    const reel = document.getElementById('reel' + i);
+    const landingSym = jackpot ? oeSym : SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
+    landed.push(landingSym);
+    buildReel(reel, landingSym);
+    reel.style.transition = 'none';
+    reel.style.transform = 'translateY(0)';
+    const spinDistance = -(16 * CELL_HEIGHT);
+    const duration = (delays[i] / 1000) + 0.6;
+    setTimeout(() => {
+      reel.style.transition = `transform ${duration}s cubic-bezier(0.22, 0.8, 0.12, 1)`;
+      reel.style.transform = `translateY(${spinDistance}px)`;
+    }, 80 + i * 150);
+  }
+
+  const maxDelay = delays[2] + 900;
+  setTimeout(() => {
+    const allOE = landed.every(s => s.isLogo);
+    if (allOE) {
+      msg.innerHTML = '<em>The throne is yours... for now.</em>';
+      launchFireworks();
+    } else {
+      msg.textContent = LOSE_MSGS[Math.floor(Math.random() * LOSE_MSGS.length)];
+    }
+    btn.disabled = false;
+    btn.textContent = '🎰 Spin Again';
+    spinning = false;
+  }, maxDelay);
+}
+
+function launchFireworks() {
+  const canvas = document.getElementById('fireworks-canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.style.display = 'block';
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const particles = [];
+  const colors = ['#F9C76C','#E8A83A','#FFF5E0','#C9181F','#fff','#FFD700'];
+
+  for (let b = 0; b < 8; b++) {
+    setTimeout(() => {
+      const x = Math.random() * canvas.width;
+      const y = Math.random() * canvas.height * 0.6;
+      for (let p = 0; p < 60; p++) {
+        const angle = (Math.PI * 2 / 60) * p;
+        const speed = 2 + Math.random() * 5;
+        particles.push({
+          x, y,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          life: 1,
+          size: 2 + Math.random() * 3,
+        });
+      }
+    }, b * 300);
+  }
+
+  let frame;
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    let alive = false;
+    particles.forEach(p => {
+      if (p.life <= 0) return;
+      alive = true;
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += 0.1;
+      p.life -= 0.015;
+      ctx.globalAlpha = p.life;
+      ctx.fillStyle = p.color;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fill();
+    });
+    ctx.globalAlpha = 1;
+    if (alive) {
+      frame = requestAnimationFrame(animate);
+    } else {
+      canvas.style.display = 'none';
+    }
+  }
+  animate();
+  setTimeout(() => { cancelAnimationFrame(frame); canvas.style.display = 'none'; }, 5000);
+}
+</script>
+
+
+<!-- BONUS OVERLAY -->
+<div id="bonus-overlay" style="display:none; position:fixed; inset:0; z-index:1000; background:rgba(6,2,1,0.97); flex-direction:column; align-items:center; justify-content:center; gap:1.5rem; overflow:auto; padding:2rem;">
+  <div id="bonus-border-flash" style="position:fixed;inset:0;border:8px solid #F9C76C;pointer-events:none;z-index:1002;"></div>
+  <div style="font-family:'DM Serif Display',serif; font-style:italic; font-size:clamp(1.8rem,4vw,3rem); color:#F9C76C; text-align:center; text-shadow:0 0 40px rgba(249,199,108,0.8); letter-spacing:0.05em;">⚔️ EMPRESS FEATURE ⚔️</div>
+  <div style="font-size:11px; letter-spacing:0.3em; text-transform:uppercase; color:rgba(249,199,108,0.6); font-weight:700; text-align:center;">Fill the grid with crowns to claim the throne</div>
+
+  <!-- Spins counter -->
+  <div style="display:flex; align-items:center; gap:1rem;">
+    <div style="font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:rgba(249,199,108,0.6); font-weight:700;">Spins Remaining</div>
+    <div id="bonus-spins-display" style="font-family:'DM Serif Display',serif; font-style:italic; font-size:3rem; color:#F9C76C; text-shadow:0 0 20px rgba(249,199,108,0.6); min-width:2ch; text-align:center;">3</div>
+  </div>
+
+  <!-- 5x3 Grid -->
+  <div id="bonus-grid" style="display:grid; grid-template-columns:repeat(5,1fr); gap:8px; width:min(560px,90vw);">
+  </div>
+
+  <div id="bonus-msg" style="display:none; font-family:'DM Serif Display',serif; font-style:italic; font-size:clamp(1.2rem,3vw,2rem); color:#F9C76C; text-align:center; text-shadow:0 0 20px rgba(249,199,108,0.8); padding:0 1rem;"></div>
+  <canvas id="fireworks-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1003;display:none;"></canvas>
+</div>
+
+<style>
+@keyframes crownLand {
+  0% { transform: scale(0.5); opacity:0; }
+  60% { transform: scale(1.3); }
+  100% { transform: scale(1); opacity:1; }
+}
+@keyframes cellSpin {
+  0% { transform: rotateX(0deg); }
+  100% { transform: rotateX(360deg); }
+}
+@keyframes borderPulse {
+  0%,100% { border-color: #F9C76C; box-shadow: 0 0 30px rgba(249,199,108,0.4); }
+  50% { border-color: #C9181F; box-shadow: 0 0 30px rgba(201,24,31,0.6); }
+}
+.bonus-cell {
+  height: clamp(60px, 10vw, 90px);
+  border: 2px solid rgba(249,199,108,0.25);
+  background: #1a0a08;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  transition: all 0.3s;
+  position: relative;
+}
+.bonus-cell.spinning {
+  animation: cellSpin 0.15s linear infinite;
+  border-color: rgba(249,199,108,0.4);
+}
+.bonus-cell.locked {
+  background: radial-gradient(circle, rgba(249,199,108,0.2), rgba(67,16,24,0.8));
+  border-color: #F9C76C;
+  box-shadow: 0 0 12px rgba(249,199,108,0.4), inset 0 0 8px rgba(249,199,108,0.1);
+  animation: borderPulse 2s ease-in-out infinite;
+}
+.bonus-cell.locked .crown-icon {
+  animation: crownLand 0.4s cubic-bezier(0.17,0.89,0.32,1.28) forwards;
+}
+</style>
+
+</body>
+</html>
